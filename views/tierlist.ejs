@@ -4,13 +4,120 @@
     <title>tierlist Details</title>
 </head>
 <body>
+    <style>
+        #tierlist_container{
+            height: 80vh;
+            width: 80vw;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: antiquewhite;
+        }
+        .tier{
+            height: 150px;
+            width: 100%;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            
+            padding: 5px;
+            margin-top: 5px;
+            border: 2px solid black;
+        }
+        .label{
+            height: 150px;
+            width: 150px;
+            font-size: 50px;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            padding: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+        .drop_area{
+            background-color: wheat;
+            height: 100%;
+            width: 70%;
+            display: inline-block;
+
+        }
+
+        #d_ch_1{
+            background-color: greenyellow;
+        }  
+        #d_ch_2{
+            background-color: red;
+        }
+        #d_ob_1{
+            background-color: aqua;
+        }
+        #d_ob_2{
+            background-color: yellow;
+        }
+
+
+        .chl{
+            height: 100px;
+        }
+        .obj{
+            height: 100px;
+            width: 100px;
+            display: inline-block;
+        }
+    </style>
+    <script>
+        function generate_tiers(){
+            let tierlists = '<%= tierlist.tiers %>';
+            let colors = '<%= tierlist.colors %>';
+            let target = document.getElementById('tierlist_container')
+            
+            tierlists = tierlists.split(',')
+            colors = colors.split(',')
+            target.innerHTML=""
+
+            let i=0;
+            tierlists.forEach(element => {
+                target.innerHTML+=`<div class='tier' id='tier_${element}' style='background-color:${colors[i]}' ><div class='label'>${element}</div><div class='drop_area' ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>`
+                i++
+            });
+
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+            }
+
+            function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            
+            }
+
+            function drop(ev, tr) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+            }
+
+    </script>
     <h1>tierlist Details</h1>
     <p>ID: <%= tierlist.id %></p>
     <p>Name: <%= tierlist.name %></p>
     <p>Description: <%= tierlist.description %></p>
     <p>Coverart: <%= tierlist.coverart %></p>
     <p>Tiers: <%= tierlist.tiers %></p>
+    <p>Colors: <%= tierlist.colors %></p>
     <p>Type: <%= tierlist.type %></p>
-    <a href="/">Back to Home</a>
+    <a href="/">Back to Home</a><br>
+    
+    <div id="tierlist_container">
+
+    </div>
+    <div id='d_ob_1' class="obj"  draggable="true" ondragstart="drag(event)">
+        AAA
+    </div> 
+    <div id='d_ob_2' class="obj"  draggable="true" ondragstart="drag(event)">
+        BBB
+    </div>
+    <script>
+        generate_tiers()
+    </script>
 </body>
 </html>

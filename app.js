@@ -45,16 +45,17 @@ app.post('/submit', function(req, res) {
   var description = req.body.description;
   var coverart = req.body.coverart;
   var tiers = req.body.tiers;
+  var colors = req.body.colors;
   var type = req.body.type;
   
-  var sql = 'INSERT INTO tierlists (name, description, coverart, tiers, type) VALUES (?, ?, ?, ?, ?)';
-  db.query(sql, [name, description, coverart, tiers, type], function(err, result) {
+  var sql = 'INSERT INTO tierlists (name, description, coverart, tiers, colors, type) VALUES (?, ?, ?, ?, ?, ?)';
+  db.query(sql, [name, description, coverart, tiers, colors, type], function(err, result) {
     if (err) {
       console.error('Error inserting data: ' + err.stack);
       res.status(500).send('Error inserting data');
       return;
     }
-    res.send('Data inserted successfully with ID: ' + result.insertId);
+    res.send('Data inserted successfully with ID: ' + result.insertId + '<br><a href="./">Back</a>');
   });
 });
 
