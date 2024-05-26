@@ -1,9 +1,12 @@
-CREATE DATABASE mydatabase;
+CREATE DATABASE tiering;
 
-USE mydatabase;
+USE tiering;
 
-CREATE TABLE users (
+CREATE TABLE tierlists (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL
+  description VARCHAR(255) NULL,
+  coverart VARCHAR(255) NULL,
+  tiers VARCHAR(255) NOT NULL,
+  type VARCHAR(255) NULL
 );

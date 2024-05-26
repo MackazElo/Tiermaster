@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tiering v0.1</title>
+    </head>
+    <body>
+        <h1>
+            Create tierlist
+        </h1>
+        
+    <form action="/submit" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description">
+        <br>
+        <label for="name">Coverart (paste url):</label>
+        <input type="text" id="coverart" name="coverart">
+        <br>
+        <label for="name">Tiers (separate by , in correct order):</label>
+        <input type="text" id="tiers" name="tiers" required>
+        <br>
+        <label for="name">Type:</label>
+        <input type="text" id="type" name="type" required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    </body>
+</html>

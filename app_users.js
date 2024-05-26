@@ -19,7 +19,7 @@ var db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'tiering'
+  database: 'mydatabase'
 });
 
 db.connect(function(err) {
@@ -35,20 +35,13 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
-app.get('/create_tierlist', function(req, res) {
-    res.render('create_tierlist');
-  });
-
 // Trasa do obsługi formularza
 app.post('/submit', function(req, res) {
   var name = req.body.name;
-  var description = req.body.description;
-  var coverart = req.body.coverart;
-  var tiers = req.body.tiers;
-  var type = req.body.type;
+  var email = req.body.email;
   
-  var sql = 'INSERT INTO tierlists (name, description, coverart, tiers, type) VALUES (?, ?, ?, ?, ?)';
-  db.query(sql, [name, description, coverart, tiers, type], function(err, result) {
+  var sql = 'INSERT INTO users (name, email) VALUES (?, ?)';
+  db.query(sql, [name, email], function(err, result) {
     if (err) {
       console.error('Error inserting data: ' + err.stack);
       res.status(500).send('Error inserting data');
@@ -59,11 +52,11 @@ app.post('/submit', function(req, res) {
 });
 
 // Trasa do wyświetlania rekordu o podanym ID
-app.get('/tierlist/:id', function(req, res) {
-  var tierlist_id = req.params.id;
+app.get('/user/:id', function(req, res) {
+  var userId = req.params.id;
 
-  var sql = 'SELECT * FROM tierlists WHERE id = ?';
-  db.query(sql, [tierlist_id], function(err, result) {
+  var sql = 'SELECT * FROM users WHERE id = ?';
+  db.query(sql, [userId], function(err, result) {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
       res.status(500).send('Error fetching data');
@@ -71,25 +64,23 @@ app.get('/tierlist/:id', function(req, res) {
     }
 
     if (result.length === 0) {
-      res.status(404).send('Tierlist not found');
+      res.status(404).send('User not found');
       return;
     }
 
-    res.render('tierlist', { tierlist: result[0] });
+    res.render('user', { user: result[0] });
   });
 });
-
-
 // Trasa do wyświetlania wszystkich użytkowników
-app.get('/tierlists', function(req, res) {
-    var sql = 'SELECT * FROM tierlists';
+app.get('/users', function(req, res) {
+    var sql = 'SELECT * FROM users';
     db.query(sql, function(err, results) {
       if (err) {
         console.error('Error fetching data: ' + err.stack);
         res.status(500).send('Error fetching data');
         return;
       }
-      res.render('tierlists', { tierlists: results });
+      res.render('allUsers', { users: results });
     });
   });
   

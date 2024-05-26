@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All tierlists</title>
+</head>
+<body>
+    <h1>All tierlists</h1>
+    <ul>
+        <% tierlists.forEach(function(tierlists) { %>
+            <li>
+                <p><a href="./tierlist/<%= tierlists.id %>">ID: <%= tierlists.id %></a></p>
+                <p>Name: <%= tierlists.name %></p>
+            </li>
+        <% }); %>
+    </ul>
+    <a href="/">Back to Home</a>
+</body>
+</html>

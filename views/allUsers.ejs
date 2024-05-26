@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Users</title>
+</head>
+<body>
+    <h1>All Users</h1>
+    <ul>
+        <% users.forEach(function(user) { %>
+            <li>
+                <p>ID: <%= user.id %></p>
+                <p>Name: <%= user.name %></p>
+                <p>Email: <%= user.email %></p>
+            </li>
+        <% }); %>
+    </ul>
+    <a href="/">Back to Home</a>
+</body>
+</html>
