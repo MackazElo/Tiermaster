@@ -80,7 +80,41 @@
             });
 
         }
+        function generate_objects(){
+            let objects = "<%= JSON.stringify(objects) %>";
+            for(i=0; i<1000; i++){
+                objects = objects.replace('&#34;', "")
+                objects = objects.replace('[', "")
+                objects = objects.replace(']', "")
+                objects = objects.replace('{', "")
+                objects = objects.replace('}', "")
+                objects = objects.replace(':', ",")
+            }
+            let j=0
+            let all_objects = []
+            
+            objects = objects.split(',')
+            while(j<objects.length){
+                result = [objects[j+1], objects[j+3], objects[j+5], objects[j+7], objects[j+9], objects[j+11]]
+                console.log(result)
+                all_objects.push(result)
+                j=j+12
+            }
+           console.log(typeof(objects))
+           console.log(objects)
+           console.log(all_objects)
 
+           all_objects.forEach(element => {
+                if(element[5]==""){
+                    element[5]='gray'
+                }
+                document.getElementById("objects_bin").innerHTML+=`<div id='object_${element[0]}' class="obj"  style='background-color:${element[5]}' draggable="true" ondragstart="drag(event)">
+        ${element[1]}
+    </div>`
+            
+           });
+
+        }
         function allowDrop(ev) {
             ev.preventDefault();
             }
@@ -95,7 +129,32 @@
             var data = ev.dataTransfer.getData("text");
             ev.target.appendChild(document.getElementById(data));
             }
+        function submit_form(target) {
+            document.getElementById(target).click()
 
+        }
+        function getBaseClass(targetClass){
+  if(targetClass instanceof Function){
+    let baseClass = targetClass;
+
+    while (baseClass){
+      const newBaseClass = Object.getPrototypeOf(baseClass);
+
+      if(newBaseClass && newBaseClass !== Object && newBaseClass.name){
+        baseClass = newBaseClass;
+      }else{
+        break;
+      }
+    }
+
+    return baseClass;
+  }
+}
+        function parrent_name(){
+            let aaa = document.getElementById("object_4")
+        
+            console.log(getBaseClass(aaa))
+        }
     </script>
     <h1>tierlist Details</h1>
     <p>ID: <%= tierlist.id %></p>
@@ -106,18 +165,27 @@
     <p>Colors: <%= tierlist.colors %></p>
     <p>Type: <%= tierlist.type %></p>
     <a href="/">Back to Home</a><br>
-    
+    <input type="button" value="generate_objects" onclick="generate_objects()">
+    <input type="button" value="parent name" onclick="parrent_name()">
+
+
+
+    <div hidden>
+        <form action="/add_object" method="POST" id="add_object_form">
+            <input name="tid" value="<%= tierlist.id %>">
+            <input type="submit" id="submit_add_objecr_form">
+            </form>
+    </div>
+    <input type="button" value="Add object" onclick="submit_form('submit_add_objecr_form')">
     <div id="tierlist_container">
 
     </div>
-    <div id='d_ob_1' class="obj"  draggable="true" ondragstart="drag(event)">
-        AAA
-    </div> 
-    <div id='d_ob_2' class="obj"  draggable="true" ondragstart="drag(event)">
-        BBB
-    </div>
+    <div id="objects_bin"></div>
+    
+    
     <script>
         generate_tiers()
+        generate_objects()
     </script>
 </body>
 </html>

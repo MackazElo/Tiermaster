@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tiering v0.1</title>
+    </head>
+    <body>
+        <h1>
+            Create Object <%= tid %>
+        </h1>
+        
+    <form action="/submit_object" method="POST">
+        
+        <label for="tid" hidden>tid:</label>
+        <input type="text" id="tid" name="tid" value="<%= tid %>" required hidden>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="url">Description:</label>
+        <input type="text" id="url" name="url">
+        <br>
+        <label for="coverart">Coverart (paste url):</label>
+        <input type="text" id="coverart" name="coverart">
+        <br>
+        <label for="name">Color:</label>
+        <input type="text" id="colors" name="colors" >
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    </body>
+</html>

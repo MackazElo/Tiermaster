@@ -8,5 +8,16 @@ CREATE TABLE tierlists (
   description VARCHAR(255) NULL,
   coverart VARCHAR(255) NULL,
   tiers VARCHAR(255) NOT NULL,
+  colors VARCHAR(255) NULL,
   type VARCHAR(255) NULL
 );
+
+
+
+CREATE TABLE tierlist$id (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  url VARCHAR(255) NULL,
+  coverart VARCHAR(255) NULL,
+  tier VARCHAR(255) NULL,
+  colors VARCHAR(255) NULL)
