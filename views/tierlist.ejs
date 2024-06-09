@@ -155,7 +155,7 @@
                 let target_tier= document.getElementById("drop_area_"+tier_level)
                 let dropped_on_object = document.getElementById("object_"+dropped_on[1])
                 let child_to_move = document.getElementById(data)
-                console.log(child_to_move)
+                // console.log(child_to_move)
                 target_tier.insertBefore(child_to_move, dropped_on_object)
       
             }
@@ -194,6 +194,7 @@
             <input type="submit" id="submit_add_object_form">
             </form>
         <form action="/update_posistion" method="POST" id="update_posistion_form">
+            <input name="tid" value="<%= tierlist.id %>">
             <input type="submit" id="submit_update_position_form">
 
         </form>

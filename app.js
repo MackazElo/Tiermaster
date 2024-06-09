@@ -45,7 +45,7 @@ app.get('/create_tierlist', function(req, res) {
   });
 
 // Trasa do obsługi formularza
-app.post('/submit', function(req, res) {
+app.post('/new_tierlist', function(req, res) {
   var name = req.body.name;
   var description = req.body.description;
   var coverart = req.body.coverart;
@@ -95,6 +95,57 @@ app.post('/submit_object', function(req, res) {
       
       res.send('Data inserted successfully with ID: ' + result.insertId + '<br><a href="./">Back</a>');
       });
+  });
+
+  app.post('/update_posistion', function(req, res) {
+    var tid = req.body.tid;
+      // let i=1
+      // let k =""
+      // let j = 0 
+      // let positions = [0]
+      // while (positions[positions.length-1]!=undefined){
+      //   k = `positions.push(req.body.position_`
+      //   eval(k + i +")")  
+      //   console.log(positions.length)
+      //   i++
+      // }
+      // console.log(positions)
+      
+      let k =""
+      
+      let positions = []
+      for(i=0; i<100; i++){
+        k = `positions.push(req.body.position_`
+        eval(k + i +")")  
+      }
+      ids= ""
+      console.log(positions)
+      var sql=`UPDATE tierlist${tid} SET tier = CASE`
+      for(i=0; i<100; i++) {
+        if(positions[i]!=undefined){
+           sql += ` WHEN id = ${i} THEN ${positions[i]}` ;
+            if(ids!=""){
+              ids+= ", "
+            }
+            ids += i
+            }
+            
+            
+      }
+      
+      sql+= " ELSE tier END WHERE id IN ("+ids+");"
+      console.log(sql)
+      db.query(sql, (err, results) => {
+        if (err) {
+          console.error('Błąd podczas wykonywania zapytania:', err);
+          return;
+        }
+        console.log('Zapytanie zakończone sukcesem:', results);
+      });
+
+    
+      res.send(`Data inserted successfully with ID:<br><a href="./">Back</a>`);
+      
   });
 
 // Trasa do wyświetlania rekordu o podanym ID
