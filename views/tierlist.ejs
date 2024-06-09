@@ -5,13 +5,18 @@
 </head>
 <body>
     <style>
-        #tierlist_container{
-            height: 80vh;
-            width: 80vw;
-            font-size: 20px;
+        body{
             font-family: Arial, Helvetica, sans-serif;
-            background-color: antiquewhite;
+            text-align: center;
         }
+        #main_container{
+            text-align: center;
+        }
+        #tierlist_container{
+            text-align: left;
+            margin: 100px;
+        }
+
         .tier{
             height: 150px;
             width: 100%;
@@ -23,20 +28,20 @@
             border: 2px solid black;
         }
         .label{
-            height: 150px;
-            width: 150px;
-            font-size: 50px;
-            font-family: Arial, Helvetica, sans-serif;
             text-align: center;
             padding: 5px;
             margin: 5px;
-            display: inline-block;
+            display: inline-flex;
+            font-size: 70px;
+            height: auto;
+            background-color: rgba(255, 255, 255, 0.2);
         }
         .drop_area{
-            background-color: wheat;
-            height: 100%;
-            width: 70%;
+            /* background-color: wheat; */
+            height: 80%;
+            width: 85%;
             display: inline-block;
+            background-color: wheat;
 
         }
 
@@ -60,7 +65,11 @@
         .obj{
             height: 100px;
             width: 100px;
-            display: inline-block;
+            display: inline-flex;
+            cursor: grab;
+        }
+        #objects_bin{
+            grid-area: objects_bin;
         }
     </style>
     <script>
@@ -102,18 +111,21 @@
             }
            //console.log(typeof(objects))
            //console.log(objects)
-           //console.log(all_objects)
+           console.log(all_objects)
 
            all_objects.forEach(element => {
+                let target_tier_id=""
                 if(element[5]==""){
                     element[5]='gray'
                 }
                 if(element[4]==""){
-                    document.getElementById(`objects_bin`).innerHTML+=`<div id='object_${element[0]}' class='obj'  style='background-color:${element[5]}' draggable='true' ondragstart='drag(event)' >${element[1]}</div>`
+                    
+                    target_tier_id = `objects_bin`
                 }
                 else{
-                    document.getElementById(`drop_area_${element[4]}`).innerHTML+=`<div id='object_${element[0]}' class='obj'  style='background-color:${element[5]}' draggable='true' ondragstart='drag(event)' >${element[1]}</div>`
+                    target_tier_id = `drop_area_${element[4]}`
                 }
+                document.getElementById(target_tier_id).innerHTML+=`<div id='object_${element[0]}' class='obj'  style='color:${element[5]}; border: solid 2px ${element[5]}; background-image: url("https://${element[3]}"); background-repeat: no-repeat; background-size: cover; text-align:center ' draggable='true' ondragstart='drag(event)' >${element[1]}</div>`
                 
                 document.getElementById("update_posistion_form").innerHTML+=`<input id='position_${element[0]}' name='position_${element[0]}'  value='${element[4]}'>`
             
@@ -180,6 +192,8 @@
         
  
     </script>
+    <div id="main_container">
+    <div id="header">
      <h1>tierlist <%= tierlist.name %> Details</h1>
   
     <div hidden>
@@ -192,9 +206,12 @@
     <p>Type: <%= tierlist.type %></p>
     <a href="/">Back to Home</a><br>
 </div>
-    <input type="button" value="generate_objects" onclick="generate_objects()">
-    <input type="button" value="parent name" onclick="parrent_name()">
-
+<input type="button" value="Add object" onclick="submit_form('submit_add_object_form')">
+    <input type="button" value="Add Bulk" onclick="document.getElementById('submit_add_object_bulk_form').click()">
+    <input type="button" value="Save" onclick="document.getElementById('submit_update_position_form').click()">
+   
+</div>
+    
 
 
     <div >
@@ -212,18 +229,19 @@
 
         </form>
     </div>
-    <input type="button" value="Add object" onclick="submit_form('submit_add_object_form')">
-    <input type="button" value="Save" onclick="document.getElementById('submit_update_position_form').click()">
-    <input type="button" value="Add Bulk" onclick="document.getElementById('submit_add_object_bulk_form').click()">
+    
     <div id="tierlist_container">
 
     </div>
-    <div id="objects_bin"></div>
+    <div id="objects_bin">
+
+    </div>
     
     
     <script>
         generate_tiers()
         generate_objects()
     </script>
+</div>
 </body>
 </html>

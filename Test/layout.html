@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona z Gridem</title>
+</head>
+<body>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: grid;
+    grid-template-rows: 50px 1fr; /* nagłówek 50px, treść elastyczna */
+    min-height: 100vh;
+}
+
+.header {
+    grid-column: 1 / -1; /* nagłówek na całą szerokość */
+    background-color: #4CAF50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* lewa kolumna 2 razy szersza od prawej */
+    gap: 20px; /* odstęp między kolumnami */
+    padding: 20px;
+}
+
+.main-content {
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+.sidebar {
+    background-color: #ddd;
+    padding: 20px;
+}
+
+    </style>
+    <div class="container">
+        <header class="header">
+            <h1>Nagłówek</h1>
+        </header>
+        <div class="content">
+            <div class="main-content">
+                <p>To jest główna treść strony. Może zawierać różne elementy, takie jak tekst, obrazy, filmy, itp.</p>
+            </div>
+            <div class="sidebar">
+                <p>To jest boczna treść. Może zawierać dodatkowe informacje, linki, itp.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
