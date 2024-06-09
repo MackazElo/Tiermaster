@@ -1,0 +1,24 @@
+<html>
+    <body>
+        <style>
+            .k{
+                height: 80px;
+                width: 80px;
+                border: 2px solid black;
+            }
+        </style>
+        <script>
+            function dragged(){
+                console.log("dragged")
+            }
+            
+            function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            
+            }
+        </script>
+        <div class="K" draggable="true">a</div>
+        <div class="K" draggable="true">b</div>
+        <div class="K" ondragover="dragged()">c</div>
+    </body>
+</html>

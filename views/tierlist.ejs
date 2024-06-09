@@ -75,7 +75,7 @@
 
             let i=0;
             tierlists.forEach(element => {
-                target.innerHTML+=`<div class='tier' id='tier_${element}' style='background-color:${colors[i]}' ><div class='label'>${element}</div><div class='drop_area' ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>`
+                target.innerHTML+=`<div class='tier' id='tier_${element}' style='background-color:${colors[i]}' ><div class='label'>${element}</div><div class='drop_area' id='drop_area_${i}' name='drop_area_${element}' ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>`
                 i++
             });
 
@@ -96,27 +96,32 @@
             objects = objects.split(',')
             while(j<objects.length){
                 result = [objects[j+1], objects[j+3], objects[j+5], objects[j+7], objects[j+9], objects[j+11]]
-                console.log(result)
+                //console.log(result)
                 all_objects.push(result)
                 j=j+12
             }
-           console.log(typeof(objects))
-           console.log(objects)
-           console.log(all_objects)
+           //console.log(typeof(objects))
+           //console.log(objects)
+           //console.log(all_objects)
 
            all_objects.forEach(element => {
                 if(element[5]==""){
                     element[5]='gray'
                 }
-                document.getElementById("objects_bin").innerHTML+=`<div id='object_${element[0]}' class="obj"  style='background-color:${element[5]}' draggable="true" ondragstart="drag(event)">
-        ${element[1]}
-    </div>`
+                document.getElementById("objects_bin").innerHTML+=`<div id='object_${element[0]}' class='obj'  style='background-color:${element[5]}' draggable='true' ondragstart='drag(event)' >${element[1]}</div>`
+                document.getElementById("update_posistion_form").innerHTML+=`<input id='position_${element[0]}' name='position_${element[0]}'  value='${element[4]}'>`
             
            });
 
         }
+    </script>
+    <script>
         function allowDrop(ev) {
             ev.preventDefault();
+            }
+
+            function dragged(){
+                //console.log("dragged")
             }
 
             function drag(ev) {
@@ -126,35 +131,48 @@
 
             function drop(ev, tr) {
             ev.preventDefault();
+            let dropped_on =ev.target.id
+            dropped_on = dropped_on.split("_")
             var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
+                let object_number = data.split("_")
+                let tier_level = ev.target.id.split("_")
+                position = "position_"+object_number[1]
+                tier_level = tier_level[2]
+                //console.log(object_number[1])
+                //console.log(tier_level)
+                //console.log(dropped_on)
+            if(dropped_on[0]=="drop"&&dropped_on[1]=="area"){
+                
+
+                document.getElementById(position).value = tier_level
+                ev.target.appendChild(document.getElementById(data));
+            }
+            else if(dropped_on[0]=='object') {
+                //console.log(ev.target.id)
+                tier_level = document.getElementById("position_"+dropped_on[1]).value 
+                document.getElementById("position_"+object_number[1]).value = tier_level
+                //console.log(tier_level)
+                let target_tier= document.getElementById("drop_area_"+tier_level)
+                let dropped_on_object = document.getElementById("object_"+dropped_on[1])
+                let child_to_move = document.getElementById(data)
+                console.log(child_to_move)
+                target_tier.insertBefore(child_to_move, dropped_on_object)
+      
+            }
             }
         function submit_form(target) {
             document.getElementById(target).click()
 
         }
-        function getBaseClass(targetClass){
-  if(targetClass instanceof Function){
-    let baseClass = targetClass;
-
-    while (baseClass){
-      const newBaseClass = Object.getPrototypeOf(baseClass);
-
-      if(newBaseClass && newBaseClass !== Object && newBaseClass.name){
-        baseClass = newBaseClass;
-      }else{
-        break;
-      }
-    }
-
-    return baseClass;
-  }
-}
         function parrent_name(){
-            let aaa = document.getElementById("object_4")
-        
-            console.log(getBaseClass(aaa))
+            let a = document.getElementById("object_1")
+            let b = document.getElementById("object_2")
+            let c = document.getElementById("drop_area_3")
+            
+            c.insertBefore(b, a) 
         }
+        
+ 
     </script>
     <h1>tierlist Details</h1>
     <p>ID: <%= tierlist.id %></p>
@@ -170,13 +188,17 @@
 
 
 
-    <div hidden>
+    <div >
         <form action="/add_object" method="POST" id="add_object_form">
             <input name="tid" value="<%= tierlist.id %>">
-            <input type="submit" id="submit_add_objecr_form">
+            <input type="submit" id="submit_add_object_form">
             </form>
+        <form action="/update_posistion" method="POST" id="update_posistion_form">
+            <input type="submit" id="submit_update_position_form">
+
+        </form>
     </div>
-    <input type="button" value="Add object" onclick="submit_form('submit_add_objecr_form')">
+    <input type="button" value="Add object" onclick="submit_form('submit_add_object_form')">
     <div id="tierlist_container">
 
     </div>
