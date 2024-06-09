@@ -43,7 +43,10 @@ app.get('/create_tierlist', function(req, res) {
     var tid = req.body.tid;
     res.render('add_object', { tid: tid });
   });
-
+  app.post('/add_object_bulk', function(req, res) {
+    var tid = req.body.tid;
+    res.render('add_object_bulk', { tid: tid });
+  });
 // Trasa do obsługi formularza
 app.post('/new_tierlist', function(req, res) {
   var name = req.body.name;
@@ -96,6 +99,42 @@ app.post('/submit_object', function(req, res) {
       res.send('Data inserted successfully with ID: ' + result.insertId + '<br><a href="./">Back</a>');
       });
   });
+
+  app.post('/submit_object_bulk', function(req, res) {
+    var tid = req.body.tid;
+    var name = req.body.name;
+    var url = req.body.url;
+    var coverart = req.body.coverart;
+    var colors = req.body.colors;
+    var tier = ""
+    
+    var name_splited = name.split(";")
+
+    var sql = `INSERT INTO tierlist${tid} (name, url, coverart, tier, colors) VALUES `;
+
+    var all_names = ""
+    name_splited.forEach(element => {
+      if(all_names!=""){
+        all_names+=", "
+      }
+      all_names+=  `('${element}', '${url}', '${coverart}', '${tier}', '${colors}')`
+    });
+    sql+=all_names
+      db.query(sql, (err, results) => {
+        if (err) {
+          console.error('Błąd podczas wykonywania zapytania:', err);
+          return;
+        }
+        console.log('Zapytanie zakończone sukcesem:', results);
+      });
+
+    
+  
+      
+      res.send('Data inserted successfully with ID: <br><a href="./">Back</a>');
+      });
+  ;
+
 
   app.post('/update_posistion', function(req, res) {
     var tid = req.body.tid;

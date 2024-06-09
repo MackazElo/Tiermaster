@@ -202,6 +202,10 @@
             <input name="tid" value="<%= tierlist.id %>">
             <input type="submit" id="submit_add_object_form">
             </form>
+            <form hidden action="/add_object_bulk" method="POST" id="add_object_bulk_form">
+                <input name="tid" value="<%= tierlist.id %>">
+                <input type="submit" id="submit_add_object_bulk_form">
+                </form>
         <form hidden action="/update_posistion" method="POST" id="update_posistion_form">
             <input name="tid" value="<%= tierlist.id %>">
             <input type="submit" id="submit_update_position_form">
@@ -210,6 +214,7 @@
     </div>
     <input type="button" value="Add object" onclick="submit_form('submit_add_object_form')">
     <input type="button" value="Save" onclick="document.getElementById('submit_update_position_form').click()">
+    <input type="button" value="Add Bulk" onclick="document.getElementById('submit_add_object_bulk_form').click()">
     <div id="tierlist_container">
 
     </div>
