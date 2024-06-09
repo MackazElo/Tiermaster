@@ -81,7 +81,7 @@ app.post('/submit_object', function(req, res) {
     var url = req.body.url;
     var coverart = req.body.coverart;
     var colors = req.body.colors;
-    var tier = "0"
+    var tier = ""
     
     var sql = `INSERT INTO tierlist${tid} (name, url, coverart, tier, colors) VALUES (?, ?, ?, ?, ?)`;
     db.query(sql, [name, url, coverart, tier, colors], function(err, result) {

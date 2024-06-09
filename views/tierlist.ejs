@@ -108,7 +108,13 @@
                 if(element[5]==""){
                     element[5]='gray'
                 }
-                document.getElementById("objects_bin").innerHTML+=`<div id='object_${element[0]}' class='obj'  style='background-color:${element[5]}' draggable='true' ondragstart='drag(event)' >${element[1]}</div>`
+                if(element[4]==""){
+                    document.getElementById(`objects_bin`).innerHTML+=`<div id='object_${element[0]}' class='obj'  style='background-color:${element[5]}' draggable='true' ondragstart='drag(event)' >${element[1]}</div>`
+                }
+                else{
+                    document.getElementById(`drop_area_${element[4]}`).innerHTML+=`<div id='object_${element[0]}' class='obj'  style='background-color:${element[5]}' draggable='true' ondragstart='drag(event)' >${element[1]}</div>`
+                }
+                
                 document.getElementById("update_posistion_form").innerHTML+=`<input id='position_${element[0]}' name='position_${element[0]}'  value='${element[4]}'>`
             
            });
@@ -174,32 +180,36 @@
         
  
     </script>
-    <h1>tierlist Details</h1>
+     <h1>tierlist <%= tierlist.name %> Details</h1>
+  
+    <div hidden>
     <p>ID: <%= tierlist.id %></p>
-    <p>Name: <%= tierlist.name %></p>
+    <p>Name: <%= tierlist.name %> </p>
     <p>Description: <%= tierlist.description %></p>
     <p>Coverart: <%= tierlist.coverart %></p>
     <p>Tiers: <%= tierlist.tiers %></p>
     <p>Colors: <%= tierlist.colors %></p>
     <p>Type: <%= tierlist.type %></p>
     <a href="/">Back to Home</a><br>
+</div>
     <input type="button" value="generate_objects" onclick="generate_objects()">
     <input type="button" value="parent name" onclick="parrent_name()">
 
 
 
     <div >
-        <form action="/add_object" method="POST" id="add_object_form">
+        <form hidden action="/add_object" method="POST" id="add_object_form">
             <input name="tid" value="<%= tierlist.id %>">
             <input type="submit" id="submit_add_object_form">
             </form>
-        <form action="/update_posistion" method="POST" id="update_posistion_form">
+        <form hidden action="/update_posistion" method="POST" id="update_posistion_form">
             <input name="tid" value="<%= tierlist.id %>">
             <input type="submit" id="submit_update_position_form">
 
         </form>
     </div>
     <input type="button" value="Add object" onclick="submit_form('submit_add_object_form')">
+    <input type="button" value="Save" onclick="document.getElementById('submit_update_position_form').click()">
     <div id="tierlist_container">
 
     </div>
